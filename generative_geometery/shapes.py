@@ -242,28 +242,29 @@ def sin_h(x_start, x_end, y_scale, x_off=0, y_off=0):
 
 
 def cube(size, x_offset=0, y_offset=0):
+
     points = []
     #square 1
-    points.append((x_offset + (-size/2), y_offset + (-size/2))) #1
-    points.append((x_offset + (size/2), y_offset + (-size/2))) #2
-    points.append((x_offset + (size/2), y_offset + (size/2))) #3
-    points.append((x_offset + (-size/2), y_offset + (size/2)))  #4 
+    points.append((x_offset + (-size/2), y_offset + (-size/2)))
+    points.append((x_offset + (size/2), y_offset + (-size/2)))
+    points.append((x_offset + (size/2), y_offset + (size/2)))
+    points.append((x_offset + (-size/2), y_offset + (size/2)))
 
-    points.append((x_offset + (-size/2), y_offset + (-size/2))) #back to 1
+    points.append((x_offset + (-size/2), y_offset + (-size/2)))
 
     # #square 2
-    points.append((x_offset + (-size/2) + size/3, y_offset + (-size/2)+ size/3)) #5
-    points.append((x_offset + (size/2)+ size/3, y_offset + (-size/2)+ size/3)) #6
-    points.append((x_offset + (size/2)+ size/3, y_offset + (size/2)+ size/3)) #7
-    points.append((x_offset + (-size/2)+ size/3, y_offset + (size/2)+ size/3)) #8
+    points.append((x_offset + (-size/2) + size/3, y_offset + (-size/2)+ size/3))
+    points.append((x_offset + (size/2) + size/3, y_offset + (-size/2)+ size/3))
+    points.append((x_offset + (size/2) + size/3, y_offset + (size/2)+ size/3))
+    points.append((x_offset + (-size/2) + size/3, y_offset + (size/2)+ size/3))
 
-    points.append((x_offset + (-size/2) + size/3, y_offset + (-size/2)+ size/3)) # back to 5
-    points.append((x_offset + (size/2)+ size/3, y_offset + (-size/2)+ size/3)) #6
-    points.append((x_offset + (size/2), y_offset + (-size/2))) #2
-    points.append((x_offset + (size/2), y_offset + (size/2))) #3
-    points.append((x_offset + (size/2)+ size/3, y_offset + (size/2)+ size/3)) #7
-    points.append((x_offset + (-size/2)+ size/3, y_offset + (size/2)+ size/3)) #8
-    points.append((x_offset + (-size/2), y_offset + (size/2)))  #4 
+    points.append((x_offset + (-size/2) + size/3, y_offset + (-size/2)+ size/3))
+    points.append((x_offset + (size/2) + size/3, y_offset + (-size/2)+ size/3))
+    points.append((x_offset + (size/2), y_offset + (-size/2)))
+    points.append((x_offset + (size/2), y_offset + (size/2)))
+    points.append((x_offset + (size/2) + size/3, y_offset + (size/2)+ size/3))
+    points.append((x_offset + (-size/2) + size/3, y_offset + (size/2)+ size/3))
+    points.append((x_offset + (-size/2), y_offset + (size/2)))
     
     return points
 

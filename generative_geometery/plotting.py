@@ -64,51 +64,6 @@ def shader(coords, density):
     return points
 
 
-def elevation_line(utah_data, unscaled_long, unscaled_elev, line_length, max_height, trim=0):
-           
-    adjusted_longs = [l + 115 for l in unscaled_long]
-    long_min = min(adjusted_longs)
-    long_max = max(adjusted_longs)
-    scaled_longs = [line_length * (sl - long_min)/(long_max - long_min) for sl in adjusted_longs]
-    
-    elev_max = utah_data['elevation'].max() 
-    elev_min = utah_data['elevation'].min()   
-    scaled_elevs = [(-(se - elev_min)/(elev_max - elev_min))* max_height for se in unscaled_elev]
-    
-    output = list(zip(scaled_longs, scaled_elevs))
-    
-    if trim == 1:
-        trimmed = []
-        for point in output:
-            if point[0] <= line_length * (3.953274 - long_min)/(long_max - long_min):
-                trimmed.append(point) 
-        return trimmed[::-1]
-    else:
-        return output[::-1]
-
-
-def top_lefter(coords, max_radius, x_off, y_off):
-    new_coords = []
-    
-    for point in coords:
-        x,y = 0,0
-        
-        if point[0] >= 0 and point[1] >= 0:
-            x = point[0] - max_radius
-            y = point[1]
-        elif point[0] >= 0 and point[1] < 0:
-            x = point[0] - max_radius
-            y = point[1] + max_radius
-        elif point[0] <= 0 and point[1] <= 0:
-            x = point[0]
-            y = point[1] + max_radius   
-        else:
-            x = point[0]
-            y = point[1]
-            
-        new_coords.append((x + x_off, y + y_off))
-        
-
 def linear_interpolate(point1, point2, density=1):
     
     """ This takes in two points and returns equidistant points in between.
