@@ -13,3 +13,7 @@ There are three major files:
  
  A bit messy, but powerful enough to create geometric art to plot on my x,y plotter. See more examples
   @theartofdatascience on IG.
+  
+  Like this project?
+    
+  [![Support me!](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/casswllms)
