@@ -22,7 +22,7 @@ def plot(ctx, coords, line_width=0.05, color=(0,0,0), transparent=1, fill=0, con
     ctx.move_to(coords[0][0], coords[0][1])
     for x, y in coords[0:]:
         ctx.line_to(x, y)
-    if connect_last == True: 
+    if connect_last:
         ctx.line_to(coords[0][0], coords[0][1])
         ctx.line_to(coords[1][0], coords[1][1])
     if fill:    
