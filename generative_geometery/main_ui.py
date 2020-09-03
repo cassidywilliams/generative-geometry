@@ -11,34 +11,34 @@ class GenerativeUI:
 
     def __init__(self, root):
         self.master = root
-        self.master.geometry("1000x1000")
+        self.master.geometry("650x280")
         #self.master.resizable(False, False)
         self.master.title("Generative Geometry")
-        self.name_input_label = tk.Label(root, text='Project Name')
-        self.name_input_label.pack()
-        self.project_name_input = tk.Text(root, height=2, width=10)
-        self.project_name_input.pack()
+        # self.name_input_label = tk.Label(root, text='Project Name')
+        # self.name_input_label.pack()
+        # self.project_name_input = tk.Text(root, height=1, width=20)
+        # self.project_name_input.pack()
 
-        self.code_input_label = tk.Label(root, text='Code')
-        self.code_input_label.pack()
+        self.code_input_label = tk.Label(root, text='Input generative code below')
+        self.code_input_label.pack(pady=10)
         self.code_input = tk.Text(root, height=10, width=100)
-        self.code_input.pack()
+        self.code_input.pack(padx=10)
 
         # self.canvas = tk.Canvas(root, width=600, height=600)
         # self.canvas.pack()
         # self.img = ImageTk.PhotoImage(Image.open("abcd.png"))
         # self.canvas.create_image(300, 300, image=self.img)
 
-        self.preview_button = tk.Button(root, height=1, width=15, text="Preview",
-                                       command=lambda: self.popup("hola"))
-        self.preview_button.pack()
+        self.run_code_button = tk.Button(root, height=1, width=15, text="Generate",
+                                         command=lambda: self.popup())
+        self.run_code_button.pack(pady=10)
 
-        self.export_button = tk.Button(root, height=1, width=15, text="Export Package",
-                                       command=lambda: self.export_package(self.retrieve_input(self.project_name_input),
-                                                                          self.retrieve_input(self.project_name_input)))
-        self.export_button.pack()
+        # self.export_button = tk.Button(root, height=1, width=15, text="Export Package",
+        #                                command=lambda: self.export_package(self.retrieve_input(self.project_name_input),
+        #                                                                   self.retrieve_input(self.project_name_input)))
+        # self.export_button.pack()
 
-    def popup(self, msg):
+    def popup(self):
         popup = tk.Tk()
         popup.wm_title("Results")
         # label = tk.Label(popup, text=msg, font=(None, 24))
@@ -49,8 +49,16 @@ class GenerativeUI:
         img = ImageTk.PhotoImage(Image.open("abcd.png"), master=popup)
         canvas.create_image(300, 300, image=img)
 
-        b1 = tk.Button(popup, text="Close", command=popup.destroy, width=10)
-        b1.pack(padx=10, pady=10)
+        # b1 = tk.Button(popup, text="Close", command=popup.destroy, width=10)
+        # b1.pack(padx=10, pady=10)
+
+        keep = tk.Button(popup, text="Keep image and save project",
+                         command=lambda: self.export_package(self.retrieve_input(self.project_name_input),
+                                                             self.retrieve_input(self.project_name_input)))
+        keep.pack(side=tk.LEFT, padx=25, pady=10)
+        kill = tk.Button(popup, text="Discard and return", command=popup.destroy)
+        kill.pack(side=tk.RIGHT, padx=25, pady=10)
+
         popup.mainloop()
 
     def retrieve_input(self, text_box):
