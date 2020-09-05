@@ -4,12 +4,16 @@ import generative_geometery.shapes as shapes
 import os
 import tkinter as tk
 from datetime import datetime
-from PIL import ImageTk,Image
+from PIL import ImageTk, Image
+import shutil
 
 
 class GenerativeUI:
 
     def __init__(self, root):
+
+        self.project_name = 0
+
         self.master = root
         self.master.geometry("650x280")
         #self.master.resizable(False, False)
@@ -30,7 +34,7 @@ class GenerativeUI:
         # self.canvas.create_image(300, 300, image=self.img)
 
         self.run_code_button = tk.Button(root, height=1, width=15, text="Generate",
-                                         command=lambda: self.popup())
+                                         command=lambda: self.generate_button())
         self.run_code_button.pack(pady=10)
 
         # self.export_button = tk.Button(root, height=1, width=15, text="Export Package",
@@ -38,28 +42,44 @@ class GenerativeUI:
         #                                                                   self.retrieve_input(self.project_name_input)))
         # self.export_button.pack()
 
-    def popup(self):
-        popup = tk.Tk()
-        popup.wm_title("Results")
-        # label = tk.Label(popup, text=msg, font=(None, 24))
-        # label.pack(side="top", fill="x", pady=10, padx=10)
+    def generate_button(self):
+        if len(self.retrieve_input(self.code_input)) == 0:
+            popup = tk.Tk()
+            popup.wm_title("Error")
+            canvas = tk.Canvas(popup, height=20)
+            canvas.pack()
+            label = tk.Label(popup, text="You must enter code.")
+            label.pack(side="top", fill="x", pady=10, padx=10)
+            b1 = tk.Button(popup, text="Ok", command=popup.destroy, width=10)
+            b1.pack(padx=10, pady=10)
+            popup.mainloop()
 
-        canvas = tk.Canvas(popup, width=600, height=600)
-        canvas.pack()
-        img = ImageTk.PhotoImage(Image.open("abcd.png"), master=popup)
-        canvas.create_image(300, 300, image=img)
+        else:
+            self.project_name += 1
+            popup = tk.Tk()
+            popup.wm_title("Results")
+            canvas = tk.Canvas(popup, width=600, height=600)
+            canvas.pack()
 
-        # b1 = tk.Button(popup, text="Close", command=popup.destroy, width=10)
-        # b1.pack(padx=10, pady=10)
+            # this should export the package automatically
+            date = datetime.today().strftime('%Y-%m-%d')
+            path = os.path.join(os.getcwd(), date + '_' + str(self.project_name))
+            self.export_package(path, str(self.project_name))
 
-        keep = tk.Button(popup, text="Keep image and save project",
-                         command=lambda: self.export_package(self.retrieve_input(self.project_name_input),
-                                                             self.retrieve_input(self.project_name_input)))
-        keep.pack(side=tk.LEFT, padx=25, pady=10)
-        kill = tk.Button(popup, text="Discard and return", command=popup.destroy)
-        kill.pack(side=tk.RIGHT, padx=25, pady=10)
+            # open the png from the exported package
+            img = ImageTk.PhotoImage(Image.open(os.path.join(path, str(self.project_name) + ".png")), master=popup)
+            canvas.create_image(300, 300, image=img)
 
-        popup.mainloop()
+            # if keep is selected, simply close popup
+            keep = tk.Button(popup, text="Keep image and save project",
+                             command=popup.destroy)
+            keep.pack(side=tk.LEFT, padx=25, pady=10)
+
+            # if kill is selected, delete package and destroy popup
+            kill = tk.Button(popup, text="Discard and return", command=lambda: self.delete_package(path, popup))
+            kill.pack(side=tk.RIGHT, padx=25, pady=10)
+
+            popup.mainloop()
 
     def retrieve_input(self, text_box):
         """
@@ -83,8 +103,6 @@ class GenerativeUI:
     def export_package(self, path, filename):
 
         #  this creates a directory, exports the code for the design and the image files and saves all to directory
-        date = datetime.today().strftime('%Y-%m-%d')
-        path = os.path.join(os.getcwd(), path + '_' + date)
         try:
             os.mkdir(path)
         except OSError:
@@ -97,6 +115,10 @@ class GenerativeUI:
 
         with open(os.path.join(path, filename + '.py'), 'w') as f:
             f.write(code)
+
+    def delete_package(self, path, popup):
+        shutil.rmtree(path)
+        popup.destroy()
 
 
 def main():
