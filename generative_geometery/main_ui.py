@@ -1,11 +1,11 @@
-from generative_geometery.setup import Generate
-from generative_geometery.plotting import plot
-import generative_geometery.shapes as shapes
+import shapes
 import os
+import shutil
 import tkinter as tk
 from datetime import datetime
+from setup import Generate
+from plotting import plot, shader
 from PIL import ImageTk, Image
-import shutil
 
 
 class GenerativeUI:
@@ -15,7 +15,7 @@ class GenerativeUI:
         self.project_name = 0
 
         self.master = root
-        self.master.geometry("650x280")
+        self.master.geometry("800x800")
         #self.master.resizable(False, False)
         self.master.title("Generative Geometry")
         # self.name_input_label = tk.Label(root, text='Project Name')
@@ -25,7 +25,7 @@ class GenerativeUI:
 
         self.code_input_label = tk.Label(root, text='Input generative code below')
         self.code_input_label.pack(pady=10)
-        self.code_input = tk.Text(root, height=10, width=100)
+        self.code_input = tk.Text(root, height=40, width=100)
         self.code_input.pack(padx=10)
 
         # self.canvas = tk.Canvas(root, width=600, height=600)
@@ -89,16 +89,10 @@ class GenerativeUI:
         return input_val
 
     def run_code_input(self, code_to_run, filename, path):
-        init = Generate(600, 600, 20, 15, 15)
+        init = Generate(600, 600, 20, 15, 15, filename=path + '/' + filename + '.svg')
         surface, ctx = init.setup_canvas()
         exec(code_to_run)
-
-        # for i in range(0, 50):
-        #     plot(ctx, shapes.spiro(5, 10, 4), .05, (i * .001, i * .01, i * .02))
-        #     ctx.rotate(5)
-
         surface.write_to_png(path + '/' + filename + '.png')
-        surface.write_to_png(path + '/' + filename + '.svg')
 
     def export_package(self, path, filename):
 
@@ -125,7 +119,6 @@ def main():
     root = tk.Tk()
     GenerativeUI(root)
     root.mainloop()
-    #render()
 
 
 if __name__ == '__main__':
